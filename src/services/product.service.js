@@ -14,7 +14,16 @@ const showProductById = async (id) => {
   return { type: null, message: product };
 };
 
+const createProduct = async (name) => {
+  const error = schema.validateNewProduct(name);
+  if (error.type) return error;
+  const newProductId = await productModel.createProduct({ name });
+  const newProduct = await productModel.showProductById(newProductId);
+  return { type: null, message: newProduct };
+};
+
 module.exports = {
   showAllProducts,
   showProductById,
+  createProduct,
 };
