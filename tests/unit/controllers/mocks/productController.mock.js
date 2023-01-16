@@ -13,6 +13,11 @@ const listAllProducts = [
   },
 ];
 
+const newProduct = {
+  name: 'Marreta Biônica',
+};
+
 module.exports = {
   listAllProducts,
+  newProduct,
 };

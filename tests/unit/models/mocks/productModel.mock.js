@@ -13,6 +13,11 @@ const listAllProducts = [
   },
 ];
 
+const newProduct = {
+  name: 'Lanterna verde',
+};
+
 module.exports = {
   listAllProducts,
+  newProduct,
 };

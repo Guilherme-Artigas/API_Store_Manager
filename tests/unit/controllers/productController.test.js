@@ -4,7 +4,7 @@ const sinonChai = require('sinon-chai');
 
 const { productService } = require('../../../src/services');
 const { productController } = require('../../../src/controllers');
-const { listAllProducts } = require('./mocks/productController.mock');
+const { listAllProducts, newProduct } = require('./mocks/productController.mock');
 const { expect } = chai;
 
 chai.use(sinonChai);
@@ -48,12 +48,45 @@ describe('Testes unitários da camada Controller', function () {
     const res = {};
     res.status = sinon.stub().returns(res);
     res.json = sinon.stub().returns();
-    sinon.stub(productService, 'showProductById').resolves({ type: 'INVALID_VALUE', message: '"id" must be a number' });
+    sinon.stub(productService, 'showProductById').resolves({ type: 'UNPROCESSABLE_ENTITY', message: '"id" must be a number' });
     await productController.showProductById(req, res);
     expect(res.status).to.have.been.calledWith(422);
     expect(res.json).to.have.been.calledWith({ message: '"id" must be a number' });
   });
 
+  it('Retorna 201 em caso de produto cadastrado com sucesso', async function () {
+    const req = { body: { name: newProduct } };
+    const res = {};
+    res.status = sinon.stub().returns(res);
+    res.json = sinon.stub().returns();
+    sinon.stub(productService, 'createProduct').resolves({ type: null, message: { id: 4, name: {...newProduct} } });
+    await productController.createProduct(req, res);
+    expect(res.status).to.have.been.calledWith(201);
+    expect(res.json).to.have.been.calledWith({ id: 4, name: { ...newProduct } });
+  });
+
+  it('Retorna erro 400 ao tentar cadastrar um produto sem o atributo name', async function () {
+    const req = { body: { alo: newProduct } };
+    const res = {};
+    res.status = sinon.stub().returns(res);
+    res.json = sinon.stub().returns();
+    sinon.stub(productService, 'createProduct').resolves({ type: 'BAD_REQUEST', message: '"name" is required' });
+    await productController.createProduct(req, res);
+    expect(res.status).to.have.been.calledWith(400);
+    expect(res.json).to.have.been.calledWith({ message: '"name" is required' });
+  });
+
+  it('Retorna erro 422 ao tentar cadastrar um produto com o atributo name menor do que cinco caracteres', async function () {
+    const req = { body: { name: 'M' } };
+    const res = {};
+    res.status = sinon.stub().returns(res);
+    res.json = sinon.stub().returns();
+    sinon.stub(productService, 'createProduct').resolves({ type: 'UNPROCESSABLE_ENTITY', message: '"name" length must be at least 5 characters long' });
+    await productController.createProduct(req, res);
+    expect(res.status).to.have.been.calledWith(422);
+    expect(res.json).to.have.been.calledWith({ message: '"name" length must be at least 5 characters long' });
+  });
+ 
   afterEach(function () {
     sinon.restore();
   });
