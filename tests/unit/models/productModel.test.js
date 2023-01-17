@@ -5,7 +5,7 @@ const { listAllProducts, newProduct } = require('./mocks/productModel.mock');
 const sinon = require('sinon');
 const connection = require('../../../src/models/connection');
 
-describe('Testes unitários da camada Model', function () {
+describe('Testes unitários da productModel', function () {
   it('Recuperando a lista de todos os produtos cadastrados', async function () {
     sinon.stub(connection, 'execute').resolves([listAllProducts]);
     const result = await productModel.showAllProducts();

@@ -9,7 +9,7 @@ const { expect } = chai;
 
 chai.use(sinonChai);
 
-describe('Testes unitários da camada Controller', function () {
+describe('Testes unitários da productController', function () {
   it('Recuperando a lista de todos os produtos cadastrados', async function () {
     const req = {};
     const res = {};
