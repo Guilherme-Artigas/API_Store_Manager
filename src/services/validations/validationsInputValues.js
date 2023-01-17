@@ -1,4 +1,4 @@
-const { idSchema, newProduct } = require('./schema');
+const { idSchema, newProduct, newSale } = require('./schema');
 
 const validateId = (id) => {
   const { error } = idSchema.validate(id);
@@ -15,7 +15,17 @@ const validateNewProduct = (name) => {
   return { type: null, message: '' };
 };
 
+const validateNewSale = (sale) => {
+  const { error } = newSale.validate(sale);
+  if (error) {
+    const errorType = error.message.includes('required') ? 'BAD_REQUEST' : 'UNPROCESSABLE_ENTITY';
+    return { type: errorType, message: `"${error.message.slice(5)}` };
+  }
+  return { type: null, message: '' };
+};
+
 module.exports = {
   validateId,
   validateNewProduct,
+  validateNewSale,
 };
