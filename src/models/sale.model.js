@@ -1,4 +1,5 @@
 const snakeize = require('snakeize');
+const camelize = require('camelize');
 const connection = require('./connection');
 
 const createNewSale = async (sale) => {
@@ -19,6 +20,35 @@ const createNewSale = async (sale) => {
   }); return insertId;
 };
 
+const showAllSales = async () => {
+  const [result] = await connection.execute(
+    `
+      SELECT S_P.sale_id, S.date, S_P.product_id, S_P.quantity
+      FROM StoreManager.sales_products AS S_P
+      INNER JOIN StoreManager.sales AS S
+      ON S_P.sale_id = S.id
+      ORDER BY S_P.sale_id;
+    `,
+  );
+  return camelize(result);
+};
+
+const showSalesById = async (id) => {
+  const [result] = await connection.execute(
+    `
+      SELECT S.date, S_P.product_id, S_P.quantity
+      FROM StoreManager.sales_products AS S_P
+      INNER JOIN StoreManager.sales AS S
+      ON S_P.sale_id = S.id
+      WHERE S_P.sale_id = ${id};
+    `,
+    [id],
+  );
+  return camelize(result);
+};
+
 module.exports = {
   createNewSale,
+  showAllSales,
+  showSalesById,
 };

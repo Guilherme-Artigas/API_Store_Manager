@@ -4,7 +4,7 @@ const sinonChai = require('sinon-chai');
 
 const { saleService } = require('../../../src/services');
 const { saleController } = require('../../../src/controllers');
-const { newSaleMock } = require('./mocks/sale.Controller.mock');
+const { newSaleMock, salesMockById, allSalesMock } = require('./mocks/sale.Controller.mock');
 const { expect } = chai;
 
 chai.use(sinonChai);
@@ -99,6 +99,39 @@ describe('Testes unitários saleController', function () {
     await saleController.createNewSale(req, res);
     expect(res.status).to.have.been.calledWith(404);
     expect(res.json).to.have.been.calledWith({ message: 'Product not found' });
+  });
+
+  it('Retorna uma venda pelo seu ID', async function () {
+    const req = { params: { id: 1 } };
+    const res = {};
+    res.status = sinon.stub().returns(res);
+    res.json = sinon.stub().returns();
+    sinon.stub(saleService, 'showSalesById').resolves({ type: null, message: salesMockById });
+    await saleController.showSalesById(req, res);
+    expect(res.status).to.have.been.calledWith(200);
+    expect(res.json).to.have.been.calledWith(salesMockById);
+  });
+
+  it('Retorna a lista com todas as vendas cadastradas', async function () {
+    const req = {};
+    const res = {};
+    res.status = sinon.stub().returns(res);
+    res.json = sinon.stub().returns();
+    sinon.stub(saleService, 'showAllSales').resolves({ type: null, message: allSalesMock });
+    await saleController.showAllSales(req, res);
+    expect(res.status).to.have.been.calledWith(200);
+    expect(res.json).to.have.been.calledWith(allSalesMock);
+  });
+
+  it('Retorna erro ao tentar acessar uma venda inexistente no banco', async function () {
+    const req = { params: { id: 10 } };
+    const res = {};
+    res.status = sinon.stub().returns(res);
+    res.json = sinon.stub().returns();
+    sinon.stub(saleService, 'showSalesById').resolves({ type: 'SALE_NOT_FOUND', message: 'Sale not found' });
+    await saleController.showSalesById(req, res);
+    expect(res.status).to.have.been.calledWith(404);
+    expect(res.json).to.have.been.calledWith({ message: 'Sale not found' });
   });
   
   afterEach(function () {

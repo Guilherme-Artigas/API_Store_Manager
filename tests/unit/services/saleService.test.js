@@ -1,7 +1,7 @@
 const { expect } = require('chai');
 const { saleService } = require('../../../src/services');
 const { saleModel } = require('../../../src/models');
-const { newSaleMock } = require('./mocks/sale.service.mock');
+const { newSaleMock, salesMockById, allSalesMock } = require('./mocks/sale.service.mock');
 
 const sinon = require('sinon');
 
@@ -47,6 +47,26 @@ describe('Testes unitários da saleService', function () {
     const result = await saleService.createNewSale(newSaleMock);
     expect(result.type).to.be.equal('UNPROCESSABLE_ENTITY');
     expect(result.message).to.be.equal('"quantity" must be greater than or equal to 1');
+  });
+
+  it('Retorna uma lista com todas as vendas cadastradas no banco', async function () {
+    sinon.stub(saleModel, 'showAllSales').resolves(allSalesMock);
+    const result = await saleService.showAllSales();
+    expect(result.type).to.be.equal(null);
+    expect(result.message).to.deep.equal(allSalesMock);
+  });
+
+  it('Retorna uma venda pelo seu Id', async function () {
+    sinon.stub(saleModel, 'showSalesById').resolves(salesMockById);
+    const result = await saleService.showSalesById(1);
+    expect(result.type).to.be.equal(null);
+    expect(result.message).to.deep.equal(salesMockById);
+  });
+  
+  it('Retorna erro ao consultar venda por um ID inexistente', async function () {
+    const result = await saleService.showSalesById(10);
+    expect(result.type).to.be.equal('SALE_NOT_FOUND');
+    expect(result.message).to.be.equal('Sale not found');
   });
 
   afterEach(function () {
