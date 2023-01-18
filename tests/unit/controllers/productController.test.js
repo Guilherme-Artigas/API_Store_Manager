@@ -87,16 +87,48 @@ describe('Testes unitários da productController', function () {
     expect(res.json).to.have.been.calledWith({ message: '"name" length must be at least 5 characters long' });
   });
 
-  // it('Retorna status 200 para atualização de produtos com sucesso', async function () {
-  //   const req = { params: { id: 1 }, body: newProduct };
-  //   const res = {};
-  //   res.status = sinon.stub().returns(res);
-  //   res.json = sinon.stub().returns();
-  //   sinon.stub(productService, 'updateProduct').resolves({ type: null, message: { id: 1, newProduct } });
-  //   await productController.updateProduct(req, res);
-  //   expect(res.status).to.have.been.calledWith(200);
-  //   expect(res.json).to.have.been.calledWith({ id: 1, newProduct });
-  // });
+  it('Retorna status 200 para atualização de produtos com sucesso', async function () {
+    const req = { params: { id: 1 }, body: newProduct };
+    const res = {};
+    res.status = sinon.stub().returns(res);
+    res.json = sinon.stub().returns();
+    sinon.stub(productService, 'updateProduct').resolves({ type: null, message: { id: 1, newProduct } });
+    await productController.updateProduct(req, res);
+    expect(res.status).to.have.been.calledWith(200);
+    expect(res.json).to.have.been.calledWith({ id: 1, newProduct });
+  });
+
+  it('Retorna erro 404 ao tentar atualizar um produto que não exista no banco de dados', async function () {
+    const req = { params: { id: 5 }, body: newProduct };
+    const res = {};
+    res.status = sinon.stub().returns(res);
+    res.json = sinon.stub().returns();
+    sinon.stub(productService, 'updateProduct').resolves({ type: 'PRODUCT_NOT_FOUND', message: 'Product not found' });
+    await productController.updateProduct(req, res);
+    expect(res.status).to.have.been.calledWith(404);
+    expect(res.json).to.have.been.calledWith({ message: 'Product not found' });
+  });
+
+  it('Retorna status 204 para deleções em produtos cadastrados no banco de dados', async function () {
+    const req = { params: { id: 1 } };
+    const res = {};
+    res.status = sinon.stub().returns(res);
+    res.json = sinon.stub().returns();
+    sinon.stub(productService, 'deleteProduct').resolves({ type: null, message: '' });
+    await productController.deleteProduct(req, res);
+    expect(res.status).to.have.been.calledWith(204);
+  });
+  
+  it('Retorna status 404 quando tenta deletar produtos que não estão cadastrados no banco de dados', async function () {
+    const req = { params: { id: 5 } };
+    const res = {};
+    res.status = sinon.stub().returns(res);
+    res.json = sinon.stub().returns();
+    sinon.stub(productService, 'deleteProduct').resolves({ type: 'PRODUCT_NOT_FOUND', message: 'Product not found' });
+    await productController.deleteProduct(req, res);
+    expect(res.status).to.have.been.calledWith(404);
+    expect(res.json).to.have.been.calledWith({ message: 'Product not found' });
+  });
  
   afterEach(function () {
     sinon.restore();

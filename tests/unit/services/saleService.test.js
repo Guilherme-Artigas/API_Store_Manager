@@ -8,6 +8,7 @@ const sinon = require('sinon');
 describe('Testes unitários da saleService', function () {
   it('Cadastrando uma venda', async function () {
     sinon.stub(saleModel, 'createNewSale').resolves(3);
+    sinon.stub(saleService, 'createNewSale').resolves({ type: null, message: newSaleMock });
     const result = await saleService.createNewSale(newSaleMock.itemsSold);
     expect(result.type).to.be.equal(null);
     expect(result.message).to.deep.equal(newSaleMock);
