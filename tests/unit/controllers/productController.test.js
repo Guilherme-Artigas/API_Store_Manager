@@ -55,14 +55,14 @@ describe('Testes unitários da productController', function () {
   });
 
   it('Retorna 201 em caso de produto cadastrado com sucesso', async function () {
-    const req = { body: { name: newProduct } };
+    const req = { body: newProduct };
     const res = {};
     res.status = sinon.stub().returns(res);
     res.json = sinon.stub().returns();
-    sinon.stub(productService, 'createProduct').resolves({ type: null, message: { id: 4, name: {...newProduct} } });
+    sinon.stub(productService, 'createProduct').resolves({ type: null, message: { id: 4, ...newProduct } });
     await productController.createProduct(req, res);
     expect(res.status).to.have.been.calledWith(201);
-    expect(res.json).to.have.been.calledWith({ id: 4, name: { ...newProduct } });
+    expect(res.json).to.have.been.calledWith({ id: 4, ...newProduct });
   });
 
   it('Retorna erro 400 ao tentar cadastrar um produto sem o atributo name', async function () {
@@ -86,6 +86,17 @@ describe('Testes unitários da productController', function () {
     expect(res.status).to.have.been.calledWith(422);
     expect(res.json).to.have.been.calledWith({ message: '"name" length must be at least 5 characters long' });
   });
+
+  // it('Retorna status 200 para atualização de produtos com sucesso', async function () {
+  //   const req = { params: { id: 1 }, body: newProduct };
+  //   const res = {};
+  //   res.status = sinon.stub().returns(res);
+  //   res.json = sinon.stub().returns();
+  //   sinon.stub(productService, 'updateProduct').resolves({ type: null, message: { id: 1, newProduct } });
+  //   await productController.updateProduct(req, res);
+  //   expect(res.status).to.have.been.calledWith(200);
+  //   expect(res.json).to.have.been.calledWith({ id: 1, newProduct });
+  // });
  
   afterEach(function () {
     sinon.restore();
