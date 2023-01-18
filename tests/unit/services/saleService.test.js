@@ -9,7 +9,9 @@ describe('Testes unitários da saleService', function () {
   it('Cadastrando uma venda', async function () {
     sinon.stub(saleModel, 'createNewSale').resolves(3);
     sinon.stub(saleService, 'createNewSale').resolves({ type: null, message: newSaleMock });
+    const id = await saleModel.createNewSale(newSaleMock.itemsSold);
     const result = await saleService.createNewSale(newSaleMock.itemsSold);
+    expect(id).to.be.equal(3);
     expect(result.type).to.be.equal(null);
     expect(result.message).to.deep.equal(newSaleMock);
   });

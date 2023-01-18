@@ -40,7 +40,7 @@ const showSalesById = async (id) => {
       FROM StoreManager.sales_products AS S_P
       INNER JOIN StoreManager.sales AS S
       ON S_P.sale_id = S.id
-      WHERE S_P.sale_id = ${id};
+      WHERE S_P.sale_id = ?;
     `,
     [id],
   );

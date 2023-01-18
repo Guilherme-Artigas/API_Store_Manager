@@ -23,6 +23,18 @@ describe('Testes unitários da productModel', function () {
     const result = await productModel.createProduct(newProduct);
     expect(result).to.equal(6);
   });
+
+  it('Atualizando um produto', async function () {
+    sinon.stub(connection, 'execute').resolves([{ affectedRows: 1 }]);
+    const result = await productModel.updateProduct(1, 'Martelo');
+    expect(result).to.equal(1);
+  });
+
+  it('Deletando um produto cadastrado no banco de dados', async function () {
+    sinon.stub(connection, 'execute').resolves([{ affectedRows: 1 }]);
+    const result = await productModel.deleteProduct(1);
+    expect(result).to.equal(1);
+  });
   
   afterEach(function () {
     sinon.restore();

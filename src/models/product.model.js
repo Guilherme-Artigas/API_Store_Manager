@@ -22,25 +22,24 @@ const createProduct = async (name) => {
 };
 
 const updateProduct = async ({ id, name }) => {
-  await connection.execute(
+  const [{ affectedRows }] = await connection.execute(
     `
       UPDATE StoreManager.products
       SET name = ?
       WHERE id = ?
     `,
     [name, id],
-  );
+  ); return affectedRows;
 };
 
 const deleteProduct = async (id) => {
-  /* const [{ affectedRows }] = */ await connection.execute(
+  const [{ affectedRows }] = await connection.execute(
     `
       DELETE FROM StoreManager.products
       WHERE id = ?;
     `,
     [id],
-  );
-  // return affectedRows;
+  ); return affectedRows;
 };
 
 module.exports = {

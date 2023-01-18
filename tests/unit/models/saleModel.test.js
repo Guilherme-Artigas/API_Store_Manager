@@ -1,6 +1,6 @@
 const { expect } = require('chai');
 const { saleModel } = require('../../../src/models');
-const { allSalesMock } = require('./mocks/saleModel.mock');
+const { allSalesMock, saleById } = require('./mocks/saleModel.mock');
 
 const sinon = require('sinon');
 const connection = require('../../../src/models/connection');
@@ -22,6 +22,12 @@ describe('Testes unitários da saleModel', function () {
     sinon.stub(connection, 'execute').resolves([allSalesMock]);
     const result = await saleModel.showAllSales();
     expect(result).to.deep.equal(allSalesMock);
+  });
+
+  it('Retorna uma venda pelo seu ID', async function () {
+    sinon.stub(connection, 'execute').resolves([saleById]);
+    const result = await saleModel.showSalesById(1);
+    expect(result).to.deep.equal(saleById);
   });
   
   afterEach(function () {
