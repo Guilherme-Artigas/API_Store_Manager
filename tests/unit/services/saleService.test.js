@@ -1,22 +1,20 @@
 const { expect } = require('chai');
 const { saleService } = require('../../../src/services');
-const { saleModel } = require('../../../src/models');
-const { newSaleMock, salesMockById, allSalesMock } = require('./mocks/sale.service.mock');
+const { saleModel, productModel } = require('../../../src/models');
+const { newSaleMock, salesMockById, allSalesMock, listAllProducts } = require('./mocks/sale.service.mock');
 
 const sinon = require('sinon');
 
 describe('Testes unitários da saleService', function () {
   it('Cadastrando uma venda', async function () {
+    sinon.stub(productModel, 'showAllProducts').resolves(listAllProducts);
     sinon.stub(saleModel, 'createNewSale').resolves(3);
-    sinon.stub(saleService, 'createNewSale').resolves({ type: null, message: newSaleMock });
-    const id = await saleModel.createNewSale(newSaleMock.itemsSold);
     const result = await saleService.createNewSale(newSaleMock.itemsSold);
-    expect(id).to.be.equal(3);
     expect(result.type).to.be.equal(null);
     expect(result.message).to.deep.equal(newSaleMock);
   });
 
-  it('Retorna erro ao tentar cadastrar uma venda com productId inexistente no banco', async function () {
+  it('Retorna erro ao tentar cadastrar uma venda com productId inexistente no banco de dados', async function () {
     const newSaleMock = [
       {
         productId: 10,
@@ -70,6 +68,20 @@ describe('Testes unitários da saleService', function () {
     const result = await saleService.showSalesById(10);
     expect(result.type).to.be.equal('SALE_NOT_FOUND');
     expect(result.message).to.be.equal('Sale not found');
+  });
+
+  it('É possível deletar uma venda que esteja cadastrada no banco de dados', async function () {
+    sinon.stub(saleModel, 'deleteSale').resolves(1);
+    const result = await saleService.deleteSale(1);
+    expect(result.type).to.equal(null);
+    expect(result.message).to.equal('');
+  });
+  
+  it('Retorna mensagem de erro ao tentar deletar uma venda inexistente no banco de dados', async function () {
+    sinon.stub(saleModel, 'showSalesById').resolves([]);
+    const result = await saleService.deleteSale(4);
+    expect(result.type).to.equal('SALE_NOT_FOUND');
+    expect(result.message).to.equal('Sale not found');
   });
 
   afterEach(function () {

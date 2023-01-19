@@ -29,6 +29,12 @@ describe('Testes unitários da saleModel', function () {
     const result = await saleModel.showSalesById(1);
     expect(result).to.deep.equal(saleById);
   });
+
+  it('É possível deletar uma venda existente no banco de dados', async function () {
+    sinon.stub(connection, 'execute').resolves([{ affectedRows: 1 }]);
+    const result = await saleModel.deleteSale(1);
+    expect(result).to.equal(1);
+  });
   
   afterEach(function () {
     sinon.restore();

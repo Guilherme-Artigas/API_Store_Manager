@@ -54,9 +54,12 @@ describe('Testes unitários da productService', function () {
   });
 
   it('É possível atualizar um produto existente no banco de dados', async function () {
+    sinon.stub(productModel, 'showProductById').resolves(listAllProducts[0]);
+    sinon.stub(productModel, 'updateProduct').resolves([{ affectedRows: 1 }]);
+    await productModel.updateProduct({ id: 1, name: 'Martelinho de ouro' });
     const result = await productService.updateProduct(2, { name: 'Martelinho de ouro' });
     expect(result.type).to.equal(null);
-    expect(result.message).to.deep.equal({ id: 2, name: 'Martelinho de ouro' });
+    expect(result.message).to.deep.equal({ id: 1, name: 'Martelinho de ouro' });
   });
   
   it('Retorna mensagem de erro ao tentar atualizar um produto que não exista no banco de dados', async function () {
@@ -67,7 +70,9 @@ describe('Testes unitários da productService', function () {
   });
 
   it('É possível deletar um produto que esteja cadastrado no banco de dados', async function () {
-    sinon.stub(productModel, 'showProductById').resolves(1);
+    sinon.stub(productModel, 'showProductById').resolves(listAllProducts[0]);
+    sinon.stub(productModel, 'deleteProduct').resolves([{ affectedRows: 1 }]);
+    await productModel.deleteProduct(1);
     const result = await productService.deleteProduct(1);
     expect(result.type).to.equal(null);
     expect(result.message).to.equal('');
@@ -77,6 +82,12 @@ describe('Testes unitários da productService', function () {
     const result = await productService.deleteProduct(5);
     expect(result.type).to.equal('PRODUCT_NOT_FOUND');
     expect(result.message).to.equal('Product not found');
+  });
+
+  it('Retorna erro ao tentar atualizar um produto com informações erradas', async function () {
+    const result = await productService.updateProduct(1, {});
+    expect(result.type).to.equal('BAD_REQUEST');
+    expect(result.message).to.equal('"name" is required');
   });
 
   afterEach(function () {

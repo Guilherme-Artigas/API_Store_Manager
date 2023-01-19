@@ -133,6 +133,28 @@ describe('Testes unitários saleController', function () {
     expect(res.status).to.have.been.calledWith(404);
     expect(res.json).to.have.been.calledWith({ message: 'Sale not found' });
   });
+
+  it('Retorna status 204 para deleções de vendas com sucesso', async function () {
+    const req = { params: { id: 1 } };
+    const res = {};
+    res.status = sinon.stub().returns(res);
+    res.json = sinon.stub().returns();
+    sinon.stub(saleService, 'deleteSale').resolves({ type: null, message: '' });
+    await saleController.deleteSale(req, res);
+    expect(res.status).to.have.been.calledWith(204);
+    expect(res.json).to.have.been.calledWith();
+  });
+
+  it('Retorna status 404 para tentativa de deletar uma venda que não exista no banco de dados', async function () {
+    const req = { params: { id: 11 } };
+    const res = {};
+    res.status = sinon.stub().returns(res);
+    res.json = sinon.stub().returns();
+    sinon.stub(saleService, 'deleteSale').resolves({ type: 'SALE_NOT_FOUND', message: 'Sale not found' });
+    await saleController.deleteSale(req, res);
+    expect(res.status).to.have.been.calledWith(404);
+    expect(res.json).to.have.been.calledWith({ message: 'Sale not found' });
+  });
   
   afterEach(function () {
     sinon.restore();

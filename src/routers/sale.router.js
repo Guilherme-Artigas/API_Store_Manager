@@ -3,11 +3,6 @@ const { saleController } = require('../controllers');
 
 const router = express.Router();
 
-router.post(
-  '/',
-  saleController.createNewSale,
-);
-
 router.get(
   '/',
   saleController.showAllSales,
@@ -16,6 +11,16 @@ router.get(
 router.get(
   '/:id',
   saleController.showSalesById,
+);
+
+router.post(
+  '/',
+  saleController.createNewSale,
+);
+
+router.delete(
+  '/:id',
+  saleController.deleteSale,
 );
 
 module.exports = router;
