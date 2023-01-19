@@ -4,7 +4,7 @@ const sinonChai = require('sinon-chai');
 
 const { saleService } = require('../../../src/services');
 const { saleController } = require('../../../src/controllers');
-const { newSaleMock, salesMockById, allSalesMock } = require('./mocks/sale.Controller.mock');
+const { newSaleMock, salesMockById, allSalesMock, updateSaleMock } = require('./mocks/sale.Controller.mock');
 const { expect } = chai;
 
 chai.use(sinonChai);
@@ -154,6 +154,51 @@ describe('Testes unitários saleController', function () {
     await saleController.deleteSale(req, res);
     expect(res.status).to.have.been.calledWith(404);
     expect(res.json).to.have.been.calledWith({ message: 'Sale not found' });
+  });
+
+  it('Retorna status 200 para vendas atualizadas com sucesso', async function () {
+    const req = { params: { id: 1 }, body: updateSaleMock };
+    const res = {};
+    res.status = sinon.stub().returns(res);
+    res.json = sinon.stub().returns();
+    sinon.stub(saleService, 'updateSale').resolves({ type: null, message: { saleId: 1, itemsUpdated: updateSaleMock } });
+    await saleController.updateSale(req, res);
+    expect(res.status).to.have.been.calledWith(200);
+    expect(res.json).to.have.been.calledWith({ saleId: 1, itemsUpdated: updateSaleMock });
+  });
+
+  it('Retorna status 404 na tentativa de atualizar vendas que não estejam cadastradas no banco de dados', async function () {
+    const req = { params: { id: 21, body: updateSaleMock }};
+    const res = {};
+    res.status = sinon.stub().returns(res);
+    res.json = sinon.stub().returns();
+    sinon.stub(saleService, 'updateSale').resolves({ type: 'SALE_NOT_FOUND', message: 'Sale not found' });
+    await saleController.updateSale(req, res);
+    expect(res.status).to.have.been.calledWith(404);
+    expect(res.json).to.have.been.calledWith({ message: 'Sale not found' });
+  });
+
+  it('Retorna status 400 para tentativas de atualizar vendas com informações erradas na requisição', async function () {
+    const req = {
+      params: { id: 1 },
+      body: [
+        {
+          product: 1,
+          quantity: 25,
+        },
+        {
+          productId: 2,
+          quantity: 13,
+        },
+      ]
+    };
+    const res = {};
+    res.status = sinon.stub().returns(res);
+    res.json = sinon.stub().returns();
+    sinon.stub(saleService, 'updateSale').resolves({ type: 'BAD_REQUEST', message: '"productId" is required' });
+    await saleController.updateSale(req, res);
+    expect(res.status).to.have.been.calledWith(400);
+    expect(res.json).to.have.been.calledWith({ message: '"productId" is required' });
   });
   
   afterEach(function () {

@@ -1,6 +1,6 @@
 const { expect } = require('chai');
 const { saleModel } = require('../../../src/models');
-const { allSalesMock, saleById } = require('./mocks/saleModel.mock');
+const { allSalesMock, saleById, updateSaleMock } = require('./mocks/saleModel.mock');
 
 const sinon = require('sinon');
 const connection = require('../../../src/models/connection');
@@ -34,6 +34,11 @@ describe('Testes unitários da saleModel', function () {
     sinon.stub(connection, 'execute').resolves([{ affectedRows: 1 }]);
     const result = await saleModel.deleteSale(1);
     expect(result).to.equal(1);
+  });
+
+  it('É possível atualizar uma venda com as informações corretas', async function () {
+    sinon.stub(connection, 'execute').resolves();
+    await saleModel.updateSale(updateSaleMock);
   });
   
   afterEach(function () {

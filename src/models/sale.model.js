@@ -47,6 +47,22 @@ const createNewSale = async (sale) => {
   }); return insertId;
 };
 
+const updateSale = async (saleListUpdated) => {
+  saleListUpdated.forEach(async (sale) => {
+    await connection.execute(
+      `
+      UPDATE StoreManager.sales_products
+      SET quantity = (
+        CASE product_id
+        WHEN ? THEN ?
+        ELSE quantity
+      END);
+    `,
+      [sale.productId, sale.quantity],
+    );
+  });
+};
+
 const deleteSale = async (id) => {
   const [{ affectedRows }] = await connection.execute(
     `
@@ -58,8 +74,9 @@ const deleteSale = async (id) => {
 };
 
 module.exports = {
-  createNewSale,
   showAllSales,
   showSalesById,
+  createNewSale,
+  updateSale,
   deleteSale,
 };

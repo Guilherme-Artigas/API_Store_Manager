@@ -55,9 +55,21 @@ const listAllProducts = [
   },
 ];
 
+const updateSale = [
+  {
+    productId: 1,
+    quantity: 10
+  },
+  {
+    productId: 2,
+    quantity: 50
+  },
+];
+
 module.exports = {
   newSaleMock,
   salesMockById,
   allSalesMock,
   listAllProducts,
+  updateSale,
 };

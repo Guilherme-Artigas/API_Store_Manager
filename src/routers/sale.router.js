@@ -18,6 +18,11 @@ router.post(
   saleController.createNewSale,
 );
 
+router.put(
+  '/:id',
+  saleController.updateSale,
+);
+
 router.delete(
   '/:id',
   saleController.deleteSale,

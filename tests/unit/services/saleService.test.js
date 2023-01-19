@@ -1,7 +1,7 @@
 const { expect } = require('chai');
 const { saleService } = require('../../../src/services');
 const { saleModel, productModel } = require('../../../src/models');
-const { newSaleMock, salesMockById, allSalesMock, listAllProducts } = require('./mocks/sale.service.mock');
+const { newSaleMock, salesMockById, allSalesMock, listAllProducts, updateSale } = require('./mocks/sale.service.mock');
 
 const sinon = require('sinon');
 
@@ -82,6 +82,68 @@ describe('Testes unitários da saleService', function () {
     const result = await saleService.deleteSale(4);
     expect(result.type).to.equal('SALE_NOT_FOUND');
     expect(result.message).to.equal('Sale not found');
+  });
+
+  it('É possível atualizar uma venda que esteja cadastrada no banco de dados', async function () {
+    sinon.stub(saleModel, 'showSalesById').resolves(salesMockById);
+    sinon.stub(saleModel, 'updateSale').resolves();
+    const result = await saleService.updateSale(1, updateSale);
+    expect(result.type).to.equal(null);
+    expect(result.message).to.deep.equal({ saleId: 1, itemsUpdated: updateSale });
+  });
+
+  it('Não é possível manipular a tabela de vendas com productId inexistente no banco de dados', async function () {
+    sinon.stub(saleModel, 'showSalesById').resolves(salesMockById);
+    sinon.stub(saleModel, 'updateSale').resolves();
+    const updateSaleFail = [
+      {
+        productId: 34,
+        quantity: 10
+      },
+      {
+        productId: 2,
+        quantity: 50
+      }
+    ]
+    const result = await saleService.updateSale(1, updateSaleFail);
+    expect(result.type).to.equal('PRODUCT_NOT_FOUND');
+    expect(result.message).to.equal('Product not found');
+  });
+
+  it('Não é possível manipular a tabela com id de venda não cadastrada no banco de dados', async function () {
+    sinon.stub(saleModel, 'showSalesById').resolves([]);
+    sinon.stub(saleModel, 'updateSale').resolves();
+    const updateSaleFail = [
+      {
+        productId: 34,
+        quantity: 10
+      },
+      {
+        productId: 2,
+        quantity: 50
+      }
+    ];
+    const result = await saleService.updateSale(12, updateSaleFail);
+    expect(result.type).to.equal('SALE_NOT_FOUND');
+    expect(result.message).to.equal('Sale not found');
+  });
+
+  it('Não é possível atualizar uma venda sem as chaves productId e quantity', async function () {
+    sinon.stub(saleModel, 'showSalesById').resolves(salesMockById);
+    sinon.stub(saleModel, 'updateSale').resolves();
+    const updateSaleFail = [
+      {
+        productI: 1,
+        quantity: 10
+      },
+      {
+        productId: 2,
+        quantity: 50
+      }
+    ];
+    const result = await saleService.updateSale(1, updateSaleFail)
+    expect(result.type).to.equal('BAD_REQUEST');
+    expect(result.message).to.equal('"productId" is required');
   });
 
   afterEach(function () {
