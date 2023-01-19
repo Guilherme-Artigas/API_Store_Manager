@@ -14,6 +14,12 @@ const showProductById = async (id) => {
   return { type: null, message: product };
 };
 
+const showProductByTerm = async (query) => {
+  const listProducts = await productModel.showAllProducts();
+  const newList = listProducts.filter((p) => p.name.includes(query));
+  return { type: null, message: newList };
+};
+
 const createProduct = async (name) => {
   const error = schema.validateNewProduct(name);
   if (error.type) return error;
@@ -42,6 +48,7 @@ const deleteProduct = async (id) => {
 module.exports = {
   showAllProducts,
   showProductById,
+  showProductByTerm,
   createProduct,
   updateProduct,
   deleteProduct,

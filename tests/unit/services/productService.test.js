@@ -90,6 +90,13 @@ describe('Testes unitários da productService', function () {
     expect(result.message).to.equal('"name" is required');
   });
 
+  it('Retorna uma lista com os produtos cadastrados em buscas realizadas por termos', async function () {
+    sinon.stub(productModel, 'showAllProducts').resolves(listAllProducts);
+    const result = await productService.showProductByTerm('a');
+    expect(result.type).to.equal(null);
+    expect(result.message).to.deep.equal(listAllProducts);
+  });
+
   afterEach(function () {
     sinon.restore();
   });

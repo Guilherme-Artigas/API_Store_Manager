@@ -129,6 +129,17 @@ describe('Testes unitários da productController', function () {
     expect(res.status).to.have.been.calledWith(404);
     expect(res.json).to.have.been.calledWith({ message: 'Product not found' });
   });
+
+  it('Retorna status 200 na busca de produtos pelo nome', async function () {
+    const req = { query: { q: 'Martelo' } };
+    const res = {};
+    res.status = sinon.stub().returns(res);
+    res.json = sinon.stub().returns();
+    sinon.stub(productService, 'showProductByTerm').resolves({ type: null, message: listAllProducts[0] });
+    await productController.showProductByTerm(req, res);
+    expect(res.status).to.have.been.calledWith(200);
+    expect(res.json).to.have.been.calledWith(listAllProducts[0]);
+  });
  
   afterEach(function () {
     sinon.restore();
