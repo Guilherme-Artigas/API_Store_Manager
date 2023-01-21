@@ -1,10 +1,10 @@
 # Projeto Store Manager
 
-Olá seja bem vindo ao repositório do projeto **Store Manager**, esse projeto foi desenvolvido por mim [Guilherme Artigas](https://www.linkedin.com/in/guilherme-artigas/) de forma indivual enquanto aluno da [Trybe](https://www.betrybe.com/), no módulo de back-end do curso.
+Olá, seja bem vindo ao repositório do projeto **Store Manager**, esse projeto foi desenvolvido por mim [Guilherme Artigas](https://www.linkedin.com/in/guilherme-artigas/) de forma individual enquanto aluno da [Trybe](https://www.betrybe.com/), no módulo de back-end do curso.
 
 Foi um desafio que tivemos 5 dias para desenvolver do zero uma API para gerenciamento de uma loja, que manipulava 2 rotas e 3 tabelas do banco de dados, aplicando padrões arquiteturais e conhecimentos em **REST**, totalmente coberta com testes unitários, para garantir a saúde da aplicação.
 
-#### Algumas caracteristicas da API
+#### Algumas características da API
 - endpoint para listar produtos método `GET` rota `/products`;
 - endpoint para cadastrar produtos método `POST` na rota `/products`;
   - Os produtos enviados são salvos na tabela products do banco de dados
@@ -21,7 +21,7 @@ Foi um desafio que tivemos 5 dias para desenvolver do zero uma API para gerencia
       "name": "Produto exemplo",
     }
   ```
-  - Existem validações nessa rota para que os produtos sejam obrigatóriamente cadastrados com name maior ou igual a 5 caracteres.
+  - Existem validações nessa rota para que os produtos sejam obrigatoriamente cadastrados com name maior ou igual a 5 caracteres.
 
 <br />
 
