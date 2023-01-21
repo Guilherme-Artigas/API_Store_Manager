@@ -1,13 +1,67 @@
-# :construction: README customizado em construção ! :construction:
-<!-- Olá, Tryber!
-Esse é apenas um arquivo inicial para o README do seu projeto no qual você pode customizar e reutilizar todas as vezes que for executar o trybe-publisher.
+# Projeto Store Manager
 
-Para deixá-lo com a sua cara, basta alterar o seguinte arquivo da sua máquina: ~/.student-repo-publisher/custom/_NEW_README.md
+Olá seja bem vindo ao repositório do projeto **Store Manager**, esse projeto foi desenvolvido por mim [Guilherme Artigas](https://www.linkedin.com/in/guilherme-artigas/) de forma indivual enquanto aluno da [Trybe](https://www.betrybe.com/), no módulo de back-end do curso.
 
-É essencial que você preencha esse documento por conta própria, ok?
-Não deixe de usar nossas dicas de escrita de README de projetos, e deixe sua criatividade brilhar!
-:warning: IMPORTANTE: você precisa deixar nítido:
-- quais arquivos/pastas foram desenvolvidos por você; 
-- quais arquivos/pastas foram desenvolvidos por outra pessoa estudante;
-- quais arquivos/pastas foram desenvolvidos pela Trybe.
--->
+Foi um desafio que tivemos 5 dias para desenvolver do zero uma API para gerenciamento de uma loja, que manipulava 2 rotas e 3 tabelas do banco de dados, aplicando padrões arquiteturais e conhecimentos em **REST**, totalmente coberta com testes unitários, para garantir a saúde da aplicação.
+
+#### Algumas caracteristicas da API
+- endpoint para listar produtos método `GET` rota `/products`;
+- endpoint para cadastrar produtos método `POST` na rota `/products`;
+  - Os produtos enviados são salvos na tabela products do banco de dados
+  - O corpo da requisição deve ser em formato JSON seguindo a seguinte estrutura:
+  ```json
+    {
+      "name": "Produto exemplo"
+    }
+  ```
+  - Se o produto foi cadastrado com sucesso o retorno é um status **http 201**, no seguinte formato:
+  ```json
+    {
+      "id": 4,
+      "name": "Produto exemplo",
+    }
+  ```
+  - Existem validações nessa rota para que os produtos sejam obrigatóriamente cadastrados com name maior ou igual a 5 caracteres.
+
+<br />
+
+- endpoint para cadastrar vendas através do método `POST` na rota `/sales`;
+  - As vendas cadastradas são salvas na tabela sales do banco de dados
+  - O corpo da requisição deve ser em formato JSON seguindo a seguinte estrutura:
+  ```json
+    [
+      {
+        "productId": 1,
+        "quantity": 10,
+      },
+      {
+        "productId": 2,
+        "quantity": 3,
+      },
+    ]
+  ```
+  - Se a requisição não tiver o campo name, o resultado retornado é um status **http 400**: `{ "message": '"name" is required' }`
+  - Se a requisição não tiver name com pelo menos 5 caracteres, o resultado retornado é um status **http 422**: `{ "message": '"name" length be at least 5 characters long' }`
+- endpoint para cadastrar vendas método `POST` rota `/sales`
+  - Se algum dos itens da requisição não tiver o campo productId, o resultado retornado é um status **http 400**: `{ "message": '"productId" is required' }`
+  - Se algum dos itens da requisição não tiver o campo quantity, o resultado retornado é um status **http 400**: `{ "message": '"quantity" is required' }`
+  - Se a requisição tiver algum item em que o campo quantity seja menor ou igual a zero, o resultado retornado é um status **http 422**: `{ "message": '"quantity" must be greater than or equal to 1' }`
+  - Se o campo productId do item da requisição não existir no banco de dados, o resultado retornado é um status **http 404**: `{ "message": '"Product not found"' }`
+  - Em casos de cadastro de vendas com sucesso o retorno é um status **http 201**.
+
+## Tecnologias utilizadas no desenvolvimento
+
+![JavaScript](https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E)
+
+![NodeJS](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white)
+
+![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)
+
+![MySQL](https://img.shields.io/badge/MySQL-005C84?style=for-the-badge&logo=mysql&logoColor=white)
+
+![Mocha](https://img.shields.io/badge/mocha.js-323330?style=for-the-badge&logo=mocha&logoColor=Brown)
+
+![Git](https://img.shields.io/badge/GIT-E44C30?style=for-the-badge&logo=git&logoColor=white)
+
+
+Obrigado pela visita!
