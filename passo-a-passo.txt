@@ -1,0 +1,22 @@
+Passos para rodar o projeto na sua máquina.
+
+Passo 1 - Clone o repositório com o comando...
+git clone git@github.com:Guilherme-Artigas/Store_Manager.git
+
+É necessario ter o docker e o docker compose instalados!
+Verifique se o docker está instalado com o comando docker --version
+Verifique se o docker compose está instalado com o comando docker-compose --version
+
+
+
+
+
+
+
+Passo 2 - Na raiz da aplicação ./Store_Manager rode o comando...
+docker-compose up -d
+
+Passo 3 - Criando e populando o banco de dados com os seguintes comandos...
+
+
+
