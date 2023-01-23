@@ -53,4 +53,30 @@ Foi um desafio que tivemos 5 dias para desenvolver do zero uma API para gerencia
 
 ![JavaScript](https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E) ![NodeJS](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white) ![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB) ![MySQL](https://img.shields.io/badge/MySQL-005C84?style=for-the-badge&logo=mysql&logoColor=white) ![Mocha](https://img.shields.io/badge/mocha.js-323330?style=for-the-badge&logo=mocha&logoColor=Brown) ![Git](https://img.shields.io/badge/GIT-E44C30?style=for-the-badge&logo=git&logoColor=white)
 
+## Passo a Passo para rodar o projeto localmente na sua máquina
+
+## Passo 1 - Clone o repositório com o comando...
+> `git clone git@github.com:Guilherme-Artigas/Store_Manager.git`
+
+É necessário ter o docker e o docker compose instalados!
+
+Verifique se o docker está instalado com o comando `docker --version`
+Verifique se o docker compose está instalado com o comando `docker-compose --version`
+
+## Passo 2 - Instalar as dependências do projeto com o comando...
+> `npm install`
+
+## Passo 3 - Renomeio o arquivo .env-example para .env
+
+## Passo 4 - Criar e popular o banco de dados com o comando...
+> `npm run migration && npm run seed`
+
+## Passo 5 - Entrando no terminal interativo do container docker com o comando...
+> `docker exec -it store_manager bash`
+
+## Passo 6 - Subindo o servidor com o comando...
+> `npm run debug`
+
+Pronto! Com o servidor rodando na porta 3000 é possível testar requisições do tipo GET, POST, PUT, DELETE, através de um cliente como o [thunder](https://marketplace.visualstudio.com/items?itemName=rangav.vscode-thunder-client) cliente por exemplo.
+
 Obrigado pela visita!
