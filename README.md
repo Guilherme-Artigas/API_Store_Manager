@@ -56,12 +56,12 @@ Foi um desafio que tivemos 5 dias para desenvolver do zero uma API para gerencia
 ## Passo a Passo para rodar o projeto localmente na sua máquina
 
 ## Passo 1 - Clone o repositório com o comando...
-> `git clone git@github.com:Guilherme-Artigas/Store_Manager.git`
+> `git clone git@github.com:Guilherme-Artigas/Store_Manager.git && cd Store_Manager`
 
 É necessário ter o docker e o docker compose instalados!
 
-Verifique se o docker está instalado com o comando `docker --version`
-Verifique se o docker compose está instalado com o comando `docker-compose --version`
+- Verifique se o docker está instalado com o comando `docker --version` 
+- Verifique se o docker compose está instalado com o comando `docker-compose --version`
 
 ## Passo 2 - Instalar as dependências do projeto com o comando...
 > `npm install`
