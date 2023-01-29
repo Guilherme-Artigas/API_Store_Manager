@@ -42,6 +42,9 @@ Foi um desafio que tivemos 5 dias para desenvolver do zero uma API para gerencia
   ```
   - Se a requisição não tiver o campo name, o resultado retornado é um status **http 400**: `{ "message": '"name" is required' }`
   - Se a requisição não tiver name com pelo menos 5 caracteres, o resultado retornado é um status **http 422**: `{ "message": '"name" length be at least 5 characters long' }`
+
+<br />
+
 - endpoint para cadastrar vendas método `POST` rota `/sales`
   - Se algum dos itens da requisição não tiver o campo productId, o resultado retornado é um status **http 400**: `{ "message": '"productId" is required' }`
   - Se algum dos itens da requisição não tiver o campo quantity, o resultado retornado é um status **http 400**: `{ "message": '"quantity" is required' }`
@@ -49,7 +52,13 @@ Foi um desafio que tivemos 5 dias para desenvolver do zero uma API para gerencia
   - Se o campo productId do item da requisição não existir no banco de dados, o resultado retornado é um status **http 404**: `{ "message": '"Product not found"' }`
   - Em casos de cadastro de vendas com sucesso o retorno é um status **http 201**.
 
-## Tecnologias utilizadas no desenvolvimento
+<br />
+
+- endpoint para listar vendas método `GET` rota `/sales` e `/sales/:id`
+  - É possível listar todas as vendas;
+  - É possível listar todas as vendas passando um `id`;
+
+## Tecnologias utilizadas no desenvolvimento 👨🏼‍💻
 
 ![JavaScript](https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E) ![NodeJS](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white) ![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB) ![MySQL](https://img.shields.io/badge/MySQL-005C84?style=for-the-badge&logo=mysql&logoColor=white) ![Mocha](https://img.shields.io/badge/mocha.js-323330?style=for-the-badge&logo=mocha&logoColor=Brown) ![Git](https://img.shields.io/badge/GIT-E44C30?style=for-the-badge&logo=git&logoColor=white)
 
@@ -80,6 +89,6 @@ Foi um desafio que tivemos 5 dias para desenvolver do zero uma API para gerencia
 ## Passo 7 - Subindo o servidor com o comando...
 > `npm run debug`
 
-Pronto! Com o servidor rodando na porta 3000 é possível testar requisições do tipo GET, POST, PUT, DELETE, através de um cliente como o [thunder](https://marketplace.visualstudio.com/items?itemName=rangav.vscode-thunder-client) cliente por exemplo.
+Pronto! Com o servidor rodando na porta 3000 é possível testar requisições do tipo GET, POST, PUT, DELETE, através de um cliente como o [thunder client](https://marketplace.visualstudio.com/items?itemName=rangav.vscode-thunder-client) por exemplo.
 
 Obrigado pela visita!
