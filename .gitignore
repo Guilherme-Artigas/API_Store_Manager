@@ -15,6 +15,7 @@
 
 # Generated files
 .idea/**/contentModel.xml
+.idea
 
 # Sensitive or high-churn files
 .idea/**/dataSources/
@@ -290,5 +291,4 @@ $RECYCLE.BIN/
 
 # End of https://www.toptal.com/developers/gitignore/api/node,macos,windows,linux,visualstudiocode,intellij
 
-coverage
 .nyc*
