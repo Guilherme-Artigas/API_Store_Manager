@@ -1,5 +1,5 @@
 {
-  "name": "sd-0x-store-manager",
+  "name": "store-manager",
   "version": "1.0.0",
   "description": "Simple CRUD to sales and products",
   "main": "src/server.js",
@@ -25,7 +25,7 @@
   "bugs": {
     "url": "https://github.com/tryber/sd-02-project-store-manager/issues"
   },
-  "homepage": "https://github.com/tryber/sd-02-project-store-manager#readme",
+  "homepage": "https://api-store-manager.vercel.app/",
   "dependencies": {
     "@hapi/boom": "9.1.0",
     "body-parser": "1.19.0",
